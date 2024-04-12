@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    function deleteComment(commentId) {
+    $.ajax({
+        type: 'POST',
+        url: `/delete_comment/${commentId}/`,
+        success: function(data) {
+            alert(data.message);
+        }
+    });
+}
+</head>
+<body>
+
+</body>
+</html>

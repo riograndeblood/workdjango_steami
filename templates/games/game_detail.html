@@ -1,0 +1,94 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+    {% block content %}
+
+        <div class="container text-center" >
+            {% if request.user.is_authenticated and show_favorite_button %}
+                <a style="font-size: 40px;" href="{% url 'favorite_game' game.id %}">
+                    Add to favorites</a>
+                    {% elif not request.user.is_authenticated%}
+            {% else %}
+
+                <a style="font-size: 40px;">Added to favorites</a>
+            {% endif %}
+        </div>
+
+        <div class="container text-center" >
+             {%if game.image %}
+             <img style="width:800px; height: 600px" src="{{ game.image.url }}">
+             {%endif%}
+        </div>
+
+    <div class="container text-center" >
+        <h1><span style="font-size: 40px;">{{game.title}}</span></h1>
+          <h2><span style="font-size: 40px;">Genre : {%for g in game.genre.all%}</span>
+            <b><a href="{% url 'get_genre_games' g.title%}">
+                <span style="font-size: 26px;">{{g.title|linebreaks}}</span></a></b>
+            {%endfor%}
+            </h2>
+            <h3><span style="font-size: 40px;">System requirements :</span></h3>
+                <a href="{{ game.system_requirements.link }}">{{ game.system_requirements.link }}</a>
+                    <span style="font-size: 15px;"></span>
+            <h4><span style="font-size: 40px;">Developer : {%for d in game.developer.all%}</span>
+                    <span style="font-size: 26px;">{{d.title|linebreaks}}</span>
+                {%endfor%}
+            <h5><span style="font-size: 40px;">Mode game : {%for m in game.mode_game.all%}</span>
+                    <a><span style="font-size: 26px;">{{m.title|linebreaks}}</span></a>
+                {%endfor%}
+            <h6><span style="font-size: 40px;">Platform : {%for p in game.platform.all%}</span>
+                    <a><span style="font-size: 26px;">{{p.title|linebreaks}}</span></a>
+                {%endfor%}
+            <p><span style="font-size: 40px;">Release date : {{game.release_date}} </span></p>
+            <p><span style="font-size: 40px;">Raiting : {{game.raiting}} </span></p>
+            <p><span style="font-size: 40px;">Price : {{game.price}} $</span></p>
+    </div>
+
+
+
+{%if request.user.username == game.user.username%}
+         <form action="{% url 'delete_game' game.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить игру</button>
+    </form>
+{%endif%}
+
+
+
+    <div class="container text-center" >
+        {% if request.user.is_authenticated%}
+         <form id="comment-form" method="post" action="{% url 'add_comment' game.id%}">
+            {% csrf_token %}
+            <textarea name="comment">
+
+            </textarea>
+            <input type="submit" value="Go">
+    </div>
+
+
+
+     </form>
+          {% for comment in game.comments.all %}
+
+          <div style="border: 0px solid black; width: 1400px; margin-bottom: 10px; padding: 10px">
+              <hr>
+
+            <p>{{ comment.user }} :
+            {{ comment.date_create }}</p>
+              <p>{{ comment.content }}</p>
+              {%if request.user.username == comment.user.username%}
+                <form action="{% url 'delete_comment' comment.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+              {% endif %}
+    </form>
+           </div>
+          {% endfor %}
+     {%endif%}
+
+
+<hr>
+{% endblock %}
+

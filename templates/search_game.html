@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+{% block title %}
+    Поиск
+{% endblock %}
+
+{% block content %}
+
+
+    {% if games %}
+    <div class="container text-center" >
+        <p style="font-size: 40px;">Searching results</p>
+{% for game in games %}
+
+        <p>
+
+            <a href="{% url 'get_game' game.id %}">
+               <span style="font-size: 40px;">{{ game.title }}</span>
+                <p><img style="width: 600px; height: 500px" src="{{ game.image.url }}"></p>
+            </a>
+
+        <br>
+
+{% endfor %}
+    {%else%}
+    <h1>There are no games with such filters!</h1>
+    {%endif%}
+    </div>
+{% endblock %}

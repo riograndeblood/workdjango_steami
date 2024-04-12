@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center" style="width: 700px;">
+      <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+            {% for g in genre %}
+            <div class="col" style="border: 1px solid black; margin: 6px;">
+              <div class="p-1">
+                  <a href="{% url 'get_genre_games' g.title %}">{{ g.title }}</a>
+              </div>
+            </div>
+        {%endfor%}
+      </div>
+</div>
+
+
+        <div class="container text-center" >
+        <span style="font-size: 80px;">Games</span>
+
+
+        {% for game in all_games %}
+
+        <p>
+            <a href="{% url 'get_game' game.id %}">
+                <span style="font-size: 40px;">{{game.title}}</span></a></p>
+            <img style="width:800px; height: 600px" src="{{ game.image.url }}">
+
+
+    {% endfor %}
+    </div>
+<hr>
+{% endblock %}
+

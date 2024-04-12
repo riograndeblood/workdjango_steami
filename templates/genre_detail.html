@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% block title %}Фильтрация по игре{% endblock %}
+{% block content%}
+
+        <div class="container text-center" >
+          <span style="font-size: 80px;">{{ genre.title }}</span>
+
+
+    {% for game in genre_games %}
+
+        <p>
+            <a href="{% url 'get_game' game.id %}">
+                <span style="font-size: 40px;">{{ game.title }}</span>
+
+            </a>
+        </p>
+         <p>  <img style="width:800px; height: 600px" src="{{ game.image.url }}"></p>
+    {% endfor %}
+<hr>
+
+        </div>
+
+
+
+{% endblock %}

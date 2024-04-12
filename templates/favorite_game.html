@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title%} Favorites {% endblock %}
+
+{% block content %}
+
+
+{% if favorites %}
+
+    {% for favorite in favorites %}
+        <div class="container text-center" >
+            <a href="{% url 'get_game' favorite.game.id %}">
+                <span style="font-size: 40px;">{{ favorite }}</span>
+                    </a>
+
+    <p> <img style="width: 600px; height: 500px" src="{{ favorite.game.image.url }}"></p>
+        <span style="font-size: 40px;">
+            <a href="{% url 'delete_from_favorites' favorite.game.id %}">
+                Remove from favorites</a>
+                </span>
+    <hr>
+
+
+        </div>
+    {% endfor %}
+    {% else %}
+    <h2>You haven't added any games to your favorites yet</h2>
+{% endif %}
+{% endblock %}
